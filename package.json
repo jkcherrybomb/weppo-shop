@@ -1,0 +1,21 @@
+{
+  "name": "weppo-shop",
+  "version": "1.0.0",
+  "description": "projekt na weppo",
+  "main": "app.js",
+  "scripts": {
+    "watch": "nodemon ./start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "weppo-shop"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
