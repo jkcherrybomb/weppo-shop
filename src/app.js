@@ -12,15 +12,15 @@ const ProductRepository = require("./db/ProductRepository");
         console.error(err);
     }
 
-    try {
-        const result = await repo.retrieve("Betoniarka");
+    // try {
+    //     const result = await repo.retrieve("Betoniarka");
         
-        result.forEach(r => {
-            console.log(`${r.id} | ${r.name} | ${r.price} zł | ${r.description} | ${r.quantity}`);
-        });
-    } catch (err) {
-        console.error(err);
-    }
+    //     result.forEach(r => {
+    //         console.log(`${r.id} | ${r.name} | ${r.price} zł | ${r.description} | ${r.quantity}`);
+    //     });
+    // } catch (err) {
+    //     console.error(err);
+    // }
 
     // try {
     //     const result = await repo.insert({
@@ -29,6 +29,25 @@ const ProductRepository = require("./db/ProductRepository");
     //         description: "xd",
     //         quantity: 2137
     //     });
+
+    //     console.log(result);
+    // } catch (err) {
+    //     console.error(err);
+    // }
+
+    // try {
+    //     const result = await repo.update(2, {
+    //         price: 213.70,
+    //         description: "xD",
+    //     });
+
+    //     console.log(result);
+    // } catch (err) {
+    //     console.error(err);
+    // }
+
+    // try {
+    //     const result = await repo.delete(3);
 
     //     console.log(result);
     // } catch (err) {
