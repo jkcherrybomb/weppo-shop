@@ -12,7 +12,7 @@ class OrderRepository {
 
     async retrieve(id = null) {
         const query = {
-            text: `SELECT * FROM "user" WHERE id = $1`,
+            text: `SELECT * FROM "order" WHERE id = $1`,
             values: [id],
         };
         
@@ -26,7 +26,7 @@ class OrderRepository {
         const params = values.map((v, i) => `$${i + 1}`).join(", ");
 
         const query = {
-            text: `INSERT INTO order(${keys}) VALUES(${params})`,
+            text: `INSERT INTO "order"(${keys}) VALUES(${params})`,
             values: values
         };
 
@@ -38,7 +38,7 @@ class OrderRepository {
         const values = Object.values(new_entries);
 
         const query = {
-            text: `UPDATE order SET ${pairs} WHERE id = $${values.length + 1}`,
+            text: `UPDATE "order" SET ${pairs} WHERE id = $${values.length + 1}`,
             values: [...values, order_id]
         };
 
@@ -47,7 +47,7 @@ class OrderRepository {
     
     async delete(order_id) {
         const query = {
-            text: `DELETE FROM order WHERE id = $1`,
+            text: `DELETE FROM "order" WHERE id = $1`,
             values: [order_id]
         };
     
@@ -56,7 +56,7 @@ class OrderRepository {
 
     async orderSingle(product_id, buyer_id, quantity) {
         const query = {
-            text: `INSERT INTO order(product_id, buyer_id, quantity) VALUES($1, $2, $3)`,
+            text: `INSERT INTO "order"(product_id, buyer_id, quantity) VALUES($1, $2, $3)`,
             values: [product_id, buyer_id, quantity]
         };
 
