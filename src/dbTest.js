@@ -1,6 +1,7 @@
 const pg = require("pg");
 const ProductRepository = require("./db/ProductRepository");
 const UserRepository = require("./db/UserRepository");
+const OrderRepository = require("./db/OrderRepository");
 
 async function testProductSelect() {
     const repo = new ProductRepository();
@@ -116,10 +117,19 @@ async function testUserLogIn() {
     await userRepo.close();
 }
 
+async function testOrderComplete() {
+    const orderRepo = new OrderRepository();
+
+    orderRepo.markAsCompleted(2, true);
+
+    orderRepo.close();
+}
+
 (async function main() {
     await testProductSelectExactName();
     await testProductSelect();
     await testProductSelectExactName("Kremówka");
     await testUserRegister();
     await testUserLogIn();
+    await testOrderComplete();
 })();

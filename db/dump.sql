@@ -16,6 +16,24 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: order_set_completed_at(); Type: FUNCTION; Schema: public; Owner: weppo_admin
+--
+
+CREATE FUNCTION public.order_set_completed_at() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+	begin
+		if old.completed = false and new.completed = true then
+			NEW.completed_at := now();
+		end if;
+		RETURN NEW;
+	END;
+$$;
+
+
+ALTER FUNCTION public.order_set_completed_at() OWNER TO weppo_admin;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -204,7 +222,7 @@ COPY public.hash (id, user_id, hash) FROM stdin;
 --
 
 COPY public."order" (id, buyer_id, product_id, quantity, ordered_at, successful, completed_at, completed) FROM stdin;
-2	1	2	3	2024-01-10 14:00:06.448692	f	2024-01-10 14:00:06.448692	f
+2	1	2	3	2024-01-10 14:00:06.448692	t	2024-01-10 22:02:29.76093	t
 \.
 
 
@@ -276,7 +294,7 @@ SELECT pg_catalog.setval('public.role_id_seq', 1, false);
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weppo_admin
 --
 
-SELECT pg_catalog.setval('public.user_id_seq', 6, true);
+SELECT pg_catalog.setval('public.user_id_seq', 28, true);
 
 
 --
@@ -343,6 +361,13 @@ ALTER TABLE ONLY public.userrole
 
 
 --
+-- Name: order order_set_completed_at; Type: TRIGGER; Schema: public; Owner: weppo_admin
+--
+
+CREATE TRIGGER order_set_completed_at BEFORE UPDATE ON public."order" FOR EACH ROW EXECUTE FUNCTION public.order_set_completed_at();
+
+
+--
 -- Name: hash hash_user_fk; Type: FK CONSTRAINT; Schema: public; Owner: weppo_admin
 --
 
@@ -380,6 +405,34 @@ ALTER TABLE ONLY public.userrole
 
 ALTER TABLE ONLY public.userrole
     ADD CONSTRAINT userrole_user_fk FOREIGN KEY (user_id) REFERENCES public."user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: pg_database_owner
+--
+
+GRANT ALL ON SCHEMA public TO weppo_admin;
+
+
+--
+-- Name: DEFAULT PRIVILEGES FOR SEQUENCES; Type: DEFAULT ACL; Schema: public; Owner: weppo_admin
+--
+
+ALTER DEFAULT PRIVILEGES FOR ROLE weppo_admin IN SCHEMA public GRANT ALL ON SEQUENCES  TO weppo_admin;
+
+
+--
+-- Name: DEFAULT PRIVILEGES FOR FUNCTIONS; Type: DEFAULT ACL; Schema: public; Owner: weppo_admin
+--
+
+ALTER DEFAULT PRIVILEGES FOR ROLE weppo_admin IN SCHEMA public GRANT ALL ON FUNCTIONS  TO weppo_admin;
+
+
+--
+-- Name: DEFAULT PRIVILEGES FOR TABLES; Type: DEFAULT ACL; Schema: public; Owner: weppo_admin
+--
+
+ALTER DEFAULT PRIVILEGES FOR ROLE weppo_admin IN SCHEMA public GRANT ALL ON TABLES  TO weppo_admin;
 
 
 --

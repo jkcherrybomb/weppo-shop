@@ -62,6 +62,15 @@ class OrderRepository {
 
         this.pool.query(query);
     }
+    
+    async markAsCompleted(order_id, successful) {
+        const query = {
+            text: `UPDATE "order" SET completed = true, successful = $2 WHERE id = $1`,
+            values: [order_id, successful]
+        };
+    
+        this.pool.query(query);
+    }
 
     async close() {
         this.pool.end();
