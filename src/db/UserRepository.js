@@ -92,6 +92,9 @@ class UserRepository {
             text: `SELECT id FROM "user" WHERE email = $1`,
             values: [user_email]
         });
+        if (selectUserResult.rows.length == 0) {
+            return Promise.reject(new Error(`There is no user with the specified email: '${user_email}'`));
+        }
         const user_id = selectUserResult.rows[0].id;
 
         const selectHashResult = await this.pool.query({

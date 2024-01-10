@@ -87,6 +87,13 @@ async function testUserRegister() {
 
     // await userRepo.register("user123", "me@the.com", "epicpassword420");
     // await userRepo.register("user456", "email@www.pl", "12345678");
+    
+    try {
+        await userRepo.register("disallowed", "email@www.pl", "12345678");
+        console.assert(true == false);
+    } catch (err) {
+        // ok
+    }
 
     await userRepo.close();
 }
@@ -99,6 +106,13 @@ async function testUserLogIn() {
     console.assert(true == await userRepo.verifyPassword("email@www.pl", "12345678"));
     console.assert(false == await userRepo.verifyPassword("email@www.pl", "12345679"));
 
+    try {
+        await userRepo.verifyPassword("doesnotexist@at.all", "8786edFHGJU8");
+        console.assert(true == false);
+    } catch (err) {
+        // ok
+    }
+
     await userRepo.close();
 }
 
@@ -106,6 +120,6 @@ async function testUserLogIn() {
     await testProductSelectExactName();
     await testProductSelect();
     await testProductSelectExactName("Kremówka");
-    // await testUserRegister();
+    await testUserRegister();
     await testUserLogIn();
 })();
