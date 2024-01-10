@@ -8,12 +8,7 @@ class UserRepository {
     }
 
     async query(query) {
-        try {
-            const result = await this.pool.query(query);
-            return result.rows;
-        } catch (err) {
-            console.error(err);
-        }
+        return this.pool.query(query);
     }
 
     async retrieve(id = null) {
@@ -22,12 +17,8 @@ class UserRepository {
             values: [id],
         };
         
-        try {
-            const result = await this.pool.query(query);
-            return result.rows;
-        } catch (err) {
-            console.error(err);
-        }
+        const result = await this.pool.query(query);
+        return result.rows;
     }
 
     async insert(user) {
@@ -40,12 +31,7 @@ class UserRepository {
             values: values
         };
 
-        try {
-            const result = await this.pool.query(query);
-            return result;
-        } catch (err) {
-            console.error(err);
-        }
+        return this.pool.query(query);
     }
     
     async update(user_id, new_entries) {
@@ -57,12 +43,7 @@ class UserRepository {
             values: [...values, user_id]
         };
 
-        try {
-            const result = await this.pool.query(query);
-            return result;
-        } catch (err) {
-            console.error(err);
-        }
+        return this.pool.query(query);
     }
     
     async delete(user_id) {
@@ -71,12 +52,7 @@ class UserRepository {
             values: [user_id]
         };
     
-        try {
-            const result = await this.pool.query(query);
-            return result;
-        } catch (err) {
-            console.error(err);
-        }
+        return this.pool.query(query);
     }
 
     async register(name, email, password) {
@@ -124,11 +100,11 @@ class UserRepository {
         });
         const hash = selectHashResult.rows[0].hash;
 
-        return await bcrypt.compare(password, hash);
+        return bcrypt.compare(password, hash);
     }
 
     async close() {
-        await this.pool.end();
+        this.pool.end();
     }
 }
 
