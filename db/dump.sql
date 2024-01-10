@@ -276,7 +276,7 @@ SELECT pg_catalog.setval('public.role_id_seq', 1, false);
 -- Name: user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: weppo_admin
 --
 
-SELECT pg_catalog.setval('public.user_id_seq', 2, true);
+SELECT pg_catalog.setval('public.user_id_seq', 6, true);
 
 
 --
@@ -316,6 +316,14 @@ ALTER TABLE ONLY public.product
 
 ALTER TABLE ONLY public.role
     ADD CONSTRAINT role_pk PRIMARY KEY (id);
+
+
+--
+-- Name: user user_email_unique; Type: CONSTRAINT; Schema: public; Owner: weppo_admin
+--
+
+ALTER TABLE ONLY public."user"
+    ADD CONSTRAINT user_email_unique UNIQUE (email);
 
 
 --

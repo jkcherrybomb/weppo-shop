@@ -76,7 +76,7 @@ class UserRepository {
                 values: [newUserId, hash],
             };
 
-            const hashResult = await client.query(hashQuery);
+            await client.query(hashQuery);
             
             await client.query("COMMIT");
         } catch (err) {
