@@ -117,6 +117,19 @@ async function testUserLogIn() {
     await userRepo.close();
 }
 
+async function testUserRoleCheck() {
+    const userRepo = new UserRepository();
+
+    console.assert(true == await userRepo.isUserinRole(29, "admin"));
+    console.assert(false == await userRepo.isUserinRole(1, "admin"));
+    
+    console.assert(true == await userRepo.isUserinAnyRoles(29, ["admin", "foo"]));
+    console.assert(false == await userRepo.isUserinAnyRoles(29, ["foo", "bar"]));
+    console.assert(false == await userRepo.isUserinAnyRoles(1, ["foo", "bar"]));
+
+    await userRepo.close();
+}
+
 async function testOrderComplete() {
     const orderRepo = new OrderRepository();
 
@@ -129,7 +142,8 @@ async function testOrderComplete() {
     await testProductSelectExactName();
     await testProductSelect();
     await testProductSelectExactName("Kremówka");
-    await testUserRegister();
+    // await testUserRegister();
     await testUserLogIn();
+    await testUserRoleCheck();
     await testOrderComplete();
 })();

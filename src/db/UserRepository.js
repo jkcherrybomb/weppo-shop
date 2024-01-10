@@ -106,6 +106,30 @@ class UserRepository {
         return bcrypt.compare(password, hash);
     }
 
+    async isUserinRole(user_id, role_name) {
+        const result = await this.pool.query({
+            text: `SELECT user_id FROM userrole
+            JOIN role ON userrole.role_id = role.id
+            WHERE userrole.user_id = $1 AND role.name = $2;`,
+            values: [user_id, role_name]
+        });
+
+        return result.rows.length != 0;
+    }
+
+    async isUserinAnyRoles(user_id, role_names) {
+        const params = role_names.map((v, i) => `$${i + 2}`).join(", ");
+
+        const result = await this.pool.query({
+            text: `SELECT * FROM userrole
+            JOIN role ON userrole.role_id = role.id
+            WHERE userrole.user_id = $1 AND role.name IN (${params});`,
+            values: [user_id, ...role_names]
+        });
+
+        return result.rows.length != 0;
+    }
+
     async close() {
         this.pool.end();
     }
