@@ -9,6 +9,28 @@
     <%- include('../overall/layout'); %>
   </head>
   <body>
-    Tutaj będzie logowanie
+    <header><%- include('../overall/header'); %></header>
+    <h3>Log into your account</h3>
+    <form method="POST">
+      <div class="mb-3">
+      Email: <input class="form-control" type='text' name='email'/>
+      </div>
+      <div class="mb-3">
+        Password: <input class="form-control" type='text' name='password'/>
+      </div>
+      <div>
+        <a class="btn btn-primary" href="/" type="button">Log In</a>
+    </form>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col-5">
+        <h3>Don't have an account?</h3>
+      </div>
+      <div>
+      <a class="btn btn-primary" href="/create_account" type="button">Create a new account</a>
+      </div>
+    </div>
   </body>
+
 </html>

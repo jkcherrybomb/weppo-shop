@@ -5,8 +5,9 @@ var app = express();
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-fn = "Julia"
-ln = "Konefal"
+app.use(express.urlencoded({extended:true}));
+
+
 var a = [];
 a[0] = {
     name: "bananas",
@@ -36,7 +37,11 @@ a[3] = {
 }
 
 app.get('/', (req, res) => {
-    res.render('index', {firstName: fn, lastName: ln, products: a});
+    var name = req.query.name;
+    var surname = req.query.surname;
+    var email = req.query.email;
+    var password = req.query.password;
+    res.render('index', {name, surname, products: a});
 });
 
 app.get('/shopping_cart', (req, res) => {
@@ -47,14 +52,34 @@ app.get('/admin_page', (req, res) => {
     res.render('admin_page');
 });
 
-app.get('/login_page', (req, res) => {
+
+
+app.get( '/login_page', (req, res) => {
     res.render('login_page');
+});
+
+app.post('/login_page', (req, res) => {
+    var email = req.body.email;
+    var password = req.body.password;
+    res.redirect('/');
+});
+
+
+app.get('/create_account', (req, res) => {
+    res.render('create_account');
+});
+
+app.post('/create_account', (req, res) => {
+    var name = req.body.name;
+    var surname = req.body.surname;
+    var email = req.body.email;
+    var password = req.body.password;
+    res.redirect('/');
 });
 
 app.get('/search', (req, res) => {
     res.render('search');
 });
 
-let username = "Julka";
 
 http.createServer(app).listen(3000);
