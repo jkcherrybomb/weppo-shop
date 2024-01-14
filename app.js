@@ -39,8 +39,6 @@ a[3] = {
 app.get('/', (req, res) => {
     var name = req.query.name;
     var surname = req.query.surname;
-    var email = req.query.email;
-    var password = req.query.password;
     res.render('index', {name, surname, products: a});
 });
 
@@ -55,6 +53,13 @@ app.get('/thankyou', (req, res) => {
 
 app.get('/admin_page', (req, res) => {
     res.render('admin_page');
+});
+
+app.post('/admin_page', (req, res) => {
+    var name = req.body.name;
+    var price = req.body.price;
+    var description = req.body.description;
+    var quantity = req.body.quantity;
 });
 
 app.get( '/login_page', (req, res) => {

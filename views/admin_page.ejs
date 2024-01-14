@@ -10,6 +10,23 @@
   </head>
   <body>
     <header><%- include('../overall/header'); %></header>
-    Tutaj będzie dodawanie produktów
+    <h3>Add a new product</h3>
+    <form method="POST">
+      <div class="mb-3">
+      Name: <input class="form-control" type='text' name='name'/>
+      </div>
+      <div class="mb-3">
+      Price: <input class="form-control" type='number' name='price'/>
+      </div>
+      <div class="mb-3">
+      Description: <input class="form-control" type='text' name='description'/>
+      </div>
+      <div class="mb-3">
+      Quantity: <input class="form-control" type='number' name='quantity'/>
+      </div>
+      <div>
+        <button class="btn btn-primary" type="button">Add</button>
+      </div>
+      </form>
   </body>
 </html>
