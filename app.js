@@ -45,14 +45,17 @@ app.get('/', (req, res) => {
 });
 
 app.get('/shopping_cart', (req, res) => {
-    res.render('shopping_cart');
+    res.render('shopping_cart', {products: a});
 });
+
+app.get('/thankyou', (req, res) => {
+    res.render('thankyou');
+});
+
 
 app.get('/admin_page', (req, res) => {
     res.render('admin_page');
 });
-
-
 
 app.get( '/login_page', (req, res) => {
     res.render('login_page');
@@ -77,8 +80,16 @@ app.post('/create_account', (req, res) => {
     res.redirect('/');
 });
 
+var b = [];
+b[0] = {
+    name: "bananas",
+    price: 2.50,
+    description:"bananas from brazil, price per kg",
+    quantity: 45
+}
+
 app.get('/search', (req, res) => {
-    res.render('search');
+    res.render('search', {products: b});
 });
 
 

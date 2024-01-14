@@ -10,6 +10,22 @@
   </head>
   <body>
     <header><%- include('../overall/header'); %></header>
-    Tutaj będzie zawartosc koszyka
+    <h3>Here's your order </h3>
+    <% products.forEach( product => { %>
+      <div class="p-3">
+        <div class="container-fluid" style="background-color: #e6e6fa;">
+          <div class="d-flex justify-content-between align-items-center">
+            <h3 class="mr-auto"> <%= product.name %></h3>
+            <button type="button" class="btn btn-warning me-md-2" mr-auto>Remove from cart</button>
+          </div>
+          <h5>price: <%= product.price %></h5>
+          <h5><%= product.description %></h5>
+        </div>
+    </div>
+    <% }) %>
+    <div class="row">
+    <h4 class="col-4">Finished with your order?</h4>
+    <a type="button" href="/thankyou" class="btn btn-success me-md-2" mr-auto>I'm done</a>
+  </div>
   </body>
 </html>
