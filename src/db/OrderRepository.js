@@ -71,6 +71,15 @@ class OrderRepository {
         this.pool.query(query);
     }
 
+    async getAllOrders() {
+        const query = {
+            text: `SELECT * FROM "order"`,
+            params: []
+        };
+
+        return this.pool.query(query);
+    }
+
     async close() {
         this.pool.end();
     }

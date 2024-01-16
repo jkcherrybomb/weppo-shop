@@ -157,6 +157,15 @@ async function testGetAllProducts() {
     productRepo.close();
 }
 
+async function testGetAllOrders() {
+    const orderRepo = new OrderRepository();
+
+    const result = await orderRepo.getAllOrders();
+    console.table(result.rows);
+
+    orderRepo.close();
+}
+
 (async function main() {
     // await testProductSelectExactName();
     // await testProductSelect();
@@ -166,5 +175,6 @@ async function testGetAllProducts() {
     // await testUserRoleCheck();
     // await testOrderComplete();
     // await testGetAllUsers();
-    await testGetAllProducts();
+    // await testGetAllProducts();
+    await testGetAllOrders();
 })();
