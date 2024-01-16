@@ -53,6 +53,15 @@ class ProductRepository {
         return this.pool.query(query);
     }
 
+    async getAllProducts() {
+        const query = {
+            text: `SELECT * FROM product`,
+            params: []
+        };
+
+        return this.pool.query(query);
+    }
+
     async close() {
         await this.pool.end();
     }

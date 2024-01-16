@@ -148,6 +148,15 @@ async function testGetAllUsers() {
     userRepo.close();
 }
 
+async function testGetAllProducts() {
+    const productRepo = new ProductRepository();
+
+    const result = await productRepo.getAllProducts();
+    console.table(result.rows);
+
+    productRepo.close();
+}
+
 (async function main() {
     // await testProductSelectExactName();
     // await testProductSelect();
@@ -156,5 +165,6 @@ async function testGetAllUsers() {
     // await testUserLogIn();
     // await testUserRoleCheck();
     // await testOrderComplete();
-    await testGetAllUsers();
+    // await testGetAllUsers();
+    await testGetAllProducts();
 })();
