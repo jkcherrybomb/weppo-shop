@@ -16,8 +16,7 @@ class OrderRepository {
             values: [id],
         };
         
-        const result = await this.pool.query(query);
-        return result.rows;
+        return this.pool.query(query);
     }
 
     async insert(order) {

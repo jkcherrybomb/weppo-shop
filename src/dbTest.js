@@ -8,8 +8,8 @@ async function testProductSelect() {
 
     try {
         const result = await repo.query("SELECT * FROM product");
-        
-        console.table(result);
+        const rows = result.rows;
+        console.table(rows);
     } catch (err) {
         console.error(err);
     }
@@ -22,8 +22,9 @@ async function testProductSelectExactName(name) {
 
     try {
         const result = await repo.retrieve(name ?? "Betoniarka");
+        const rows = result.rows;
         
-        result.forEach(r => {
+        rows.forEach(r => {
             console.log(`${r.id} | ${r.name} | ${r.price} zł | ${r.description} | ${r.quantity}`);
         });
     } catch (err) {
@@ -139,11 +140,11 @@ async function testOrderComplete() {
 }
 
 (async function main() {
-    await testProductSelectExactName();
-    await testProductSelect();
-    await testProductSelectExactName("Kremówka");
+    // await testProductSelectExactName();
+    // await testProductSelect();
+    // await testProductSelectExactName("Kremówka");
     // await testUserRegister();
-    await testUserLogIn();
-    await testUserRoleCheck();
+    // await testUserLogIn();
+    // await testUserRoleCheck();
     await testOrderComplete();
 })();

@@ -7,8 +7,7 @@ class ProductRepository {
     }
 
     async query(query) {
-        const result = await this.pool.query(query);
-        return result.rows;
+        return this.pool.query(query);
     }
 
     async retrieve(name = null) {
@@ -17,8 +16,7 @@ class ProductRepository {
             values: [name],
         };
         
-        const result = await this.pool.query(query);
-        return result.rows;
+        return this.pool.query(query);
     }
 
     async insert(product) {
