@@ -129,6 +129,15 @@ class UserRepository {
         return result.rows.length != 0;
     }
 
+    async getAllUsers() {
+        const query = {
+            text: 'SELECT * FROM "user"',
+            params: []
+        };
+
+        return this.pool.query(query);
+    }
+
     async close() {
         this.pool.end();
     }
