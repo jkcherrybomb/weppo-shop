@@ -7,12 +7,8 @@ class ProductRepository {
     }
 
     async query(query) {
-        try {
-            const result = await this.pool.query(query);
-            return result.rows;
-        } catch (err) {
-            console.error(err);
-        }
+        const result = await this.pool.query(query);
+        return result.rows;
     }
 
     async retrieve(name = null) {
@@ -21,12 +17,8 @@ class ProductRepository {
             values: [name],
         };
         
-        try {
-            const result = await this.pool.query(query);
-            return result.rows;
-        } catch (err) {
-            console.error(err);
-        }
+        const result = await this.pool.query(query);
+        return result.rows;
     }
 
     async insert(product) {
@@ -39,12 +31,7 @@ class ProductRepository {
             values: values
         };
 
-        try {
-            const result = await this.pool.query(query);
-            return result;
-        } catch (err) {
-            console.error(err);
-        }
+        return this.pool.query(query);
     }
     
     async update(product_id, new_entries) {
@@ -56,12 +43,7 @@ class ProductRepository {
             values: [...values, product_id]
         };
 
-        try {
-            const result = await this.pool.query(query);
-            return result;
-        } catch (err) {
-            console.error(err);
-        }
+        return this.pool.query(query);
     }
     
     async delete(product_id) {
@@ -70,12 +52,7 @@ class ProductRepository {
             values: [product_id]
         };
     
-        try {
-            const result = await this.pool.query(query);
-            return result;
-        } catch (err) {
-            console.error(err);
-        }
+        return this.pool.query(query);
     }
 
     async close() {
