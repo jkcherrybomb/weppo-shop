@@ -2,6 +2,7 @@ const pg = require("pg");
 const ProductRepository = require("./db/ProductRepository");
 const UserRepository = require("./db/UserRepository");
 const OrderRepository = require("./db/OrderRepository");
+const CartRepository = require("./db/CartRepository");
 
 async function testProductSelect() {
     const repo = new ProductRepository();
@@ -166,6 +167,33 @@ async function testGetAllOrders() {
     orderRepo.close();
 }
 
+async function testGetCart(user_info) {
+    const cartRepo = new CartRepository();
+
+    const result = await cartRepo.getCart(user_info);
+    console.table(result.rows);
+
+    cartRepo.close();
+}
+
+async function testClearCart(user_info) {
+    const cartRepo = new CartRepository();
+
+    const result = await cartRepo.clearCart(user_info);
+    console.log(result);
+
+    cartRepo.close();
+}
+
+async function testOrderCart(user_info) {
+    const cartRepo = new CartRepository();
+
+    const result = await cartRepo.orderCart(user_info);
+    console.log(result);
+
+    cartRepo.close();
+}
+
 (async function main() {
     // await testProductSelectExactName();
     // await testProductSelect();
@@ -176,5 +204,9 @@ async function testGetAllOrders() {
     // await testOrderComplete();
     // await testGetAllUsers();
     // await testGetAllProducts();
-    await testGetAllOrders();
+    // await testGetAllOrders();
+    // await testGetCart({id: 1});
+    // await testGetCart({email: "arc@shop.com"});
+    // await testClearCart({id: 1});
+    // await testOrderCart({id: 1});
 })();
