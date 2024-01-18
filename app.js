@@ -2,10 +2,12 @@ var http = require('http');
 var express = require('express');
 const config = require('./src/db/config');
 const ProductRepository = require('./src/db/ProductRepository');
+const CartRepository = require('./src/db/CartRepository');
 
 var app = express();
 
 const productRepo = new ProductRepository();
+const cartRepo = new CartRepository();
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -20,8 +22,9 @@ app.get('/', async (req, res) => {
     res.render('index', {name, surname, products: products});
 });
 
-app.get('/shopping_cart', (req, res) => {
-    res.render('shopping_cart', {products: a});
+app.get('/shopping_cart', async (req, res) => {
+    const cartEntries = (await cartRepo.getCart({id: 29})).rows;
+    res.render('shopping_cart', {cartEntries: cartEntries});
 });
 
 app.get('/thankyou', (req, res) => {
