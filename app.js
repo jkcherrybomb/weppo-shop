@@ -36,11 +36,26 @@ app.get('/admin_page', (req, res) => {
     res.render('admin_page');
 });
 
-app.post('/admin_page', (req, res) => {
+app.post('/admin_page', async (req, res) => {
     var name = req.body.name;
     var price = req.body.price;
     var description = req.body.description;
     var quantity = req.body.quantity;
+
+    try {
+        // throw "Failed to add the product.";
+
+        await productRepo.insert({
+            name: name,
+            price: price,
+            description: description,
+            quantity: quantity
+        });
+
+        res.render('admin_page');
+    } catch (err) {
+        res.render('admin_page', {errorMessage: err});
+    }
 });
 
 app.get( '/login_page', (req, res) => {

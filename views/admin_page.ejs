@@ -11,6 +11,9 @@
   <body>
     <header><%- include('../overall/header'); %></header>
     <h3>Add a new product</h3>
+    <% if (locals.errorMessage != null && locals.errorMessage != undefined) { %>
+      <h4> <%= errorMessage %> </h4>
+    <% } %>
     <form method="POST">
       <div class="mb-3">
       Name: <input class="form-control" type='text' name='name'/>
