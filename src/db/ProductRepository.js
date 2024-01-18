@@ -53,10 +53,20 @@ class ProductRepository {
         return this.pool.query(query);
     }
 
-    async getAllProducts() {
+    async getProducts(limit = -1, page = 0) {
+        let offset = limit * page;
+
+        if (limit < 0) {
+            limit = 'ALL';
+            offset = 0;
+        }
+
         const query = {
-            text: `SELECT * FROM product`,
-            params: []
+            text: `SELECT *
+            FROM product
+            ORDER BY id
+            LIMIT ${limit} OFFSET $1`,
+            values: [offset]
         };
 
         return this.pool.query(query);

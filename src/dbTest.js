@@ -152,7 +152,16 @@ async function testGetAllUsers() {
 async function testGetAllProducts() {
     const productRepo = new ProductRepository();
 
-    const result = await productRepo.getAllProducts();
+    const result = await productRepo.getProducts();
+    console.table(result.rows);
+
+    productRepo.close();
+}
+
+async function testGetSomeProducts(limit, page) {
+    const productRepo = new ProductRepository();
+
+    const result = await productRepo.getProducts(limit, page);
     console.table(result.rows);
 
     productRepo.close();
@@ -204,6 +213,13 @@ async function testOrderCart(user_info) {
     // await testOrderComplete();
     // await testGetAllUsers();
     // await testGetAllProducts();
+    // await testGetSomeProducts(2);
+    // await testGetSomeProducts(2, 0);
+    // await testGetSomeProducts(2, 1);
+    // await testGetSomeProducts(2, 2);
+    // await testGetSomeProducts(3);
+    // await testGetSomeProducts(3, 1);
+    // await testGetSomeProducts(3, 2);
     // await testGetAllOrders();
     // await testGetCart({id: 1});
     // await testGetCart({email: "arc@shop.com"});
