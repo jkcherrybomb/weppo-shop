@@ -1,0 +1,33 @@
+<!-- views/login_page.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Online Shop Log in</title>
+    <%- include('../overall/layout'); %>
+  </head>
+  <body>
+    <header><%- include('../overall/header'); %></header>
+    <h3>Log into your account</h3>
+    <form method="POST">
+      <div class="mb-3">
+      : <input class="form-control" type='text' name='email'/>
+      </div>
+      <div class="mb-3">
+        Password: <input class="form-control" type='text' name='password'/>
+      </div>
+      <div>
+        <button class="btn btn-primary" type="submit" style="background-color: #612ee7; border-color: #612ee7;">Log In</button>
+      </div>
+      </form>
+    <br>
+    <br>
+    <div class="row">
+      <h3 class="col-5">Don't have an account?</h3>
+      <a class="btn btn-primary" href="/create_account" type="button" style="background-color: #612ee7; border-color: #612ee7;" >Create a new account</a>
+    </div>
+  </body>
+
+</html>

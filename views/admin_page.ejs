@@ -1,0 +1,32 @@
+<!-- views/admin_page.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Online Shop Admin panel</title>
+    <%- include('../overall/layout'); %>
+  </head>
+  <body>
+    <header><%- include('../overall/header'); %></header>
+    <h3>Add a new product</h3>
+    <form method="POST">
+      <div class="mb-3">
+      Name: <input class="form-control" type='text' name='name'/>
+      </div>
+      <div class="mb-3">
+      Price: <input class="form-control" type='number' name='price'/>
+      </div>
+      <div class="mb-3">
+      Description: <input class="form-control" type='text' name='description'/>
+      </div>
+      <div class="mb-3">
+      Quantity: <input class="form-control" type='number' name='quantity'/>
+      </div>
+      <div>
+        <button class="btn btn-primary" type="submit" style="background-color: #612ee7; border-color: #612ee7";>Add</button>
+      </div>
+      </form>
+  </body>
+</html>
