@@ -10,15 +10,6 @@ class ProductRepository {
         return this.pool.query(query);
     }
 
-    async retrieve(name = null) {
-        const query = {
-            text: "SELECT * FROM product WHERE name = $1",
-            values: [name],
-        };
-        
-        return this.pool.query(query);
-    }
-
     async insert(product) {
         const keys = Object.keys(product).join(", ");
         const values = Object.values(product);

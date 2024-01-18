@@ -18,23 +18,6 @@ async function testProductSelect() {
     await repo.close();
 }
 
-async function testProductSelectExactName(name) {
-    const repo = new ProductRepository();
-
-    try {
-        const result = await repo.retrieve(name ?? "Betoniarka");
-        const rows = result.rows;
-        
-        rows.forEach(r => {
-            console.log(`${r.id} | ${r.name} | ${r.price} zł | ${r.description} | ${r.quantity}`);
-        });
-    } catch (err) {
-        console.error(err);
-    }
-
-    await repo.close();
-}
-
 async function testProductInsert() {
     const repo = new ProductRepository();
 
@@ -204,25 +187,23 @@ async function testOrderCart(user_info) {
 }
 
 (async function main() {
-    // await testProductSelectExactName();
-    // await testProductSelect();
-    // await testProductSelectExactName("Kremówka");
+    await testProductSelect();
     // await testUserRegister();
-    // await testUserLogIn();
-    // await testUserRoleCheck();
+    await testUserLogIn();
+    await testUserRoleCheck();
     // await testOrderComplete();
-    // await testGetAllUsers();
-    // await testGetAllProducts();
-    // await testGetSomeProducts(2);
-    // await testGetSomeProducts(2, 0);
-    // await testGetSomeProducts(2, 1);
-    // await testGetSomeProducts(2, 2);
-    // await testGetSomeProducts(3);
-    // await testGetSomeProducts(3, 1);
-    // await testGetSomeProducts(3, 2);
-    // await testGetAllOrders();
-    // await testGetCart({id: 1});
-    // await testGetCart({email: "arc@shop.com"});
+    await testGetAllUsers();
+    await testGetAllProducts();
+    await testGetSomeProducts(2);
+    await testGetSomeProducts(2, 0);
+    await testGetSomeProducts(2, 1);
+    await testGetSomeProducts(2, 2);
+    await testGetSomeProducts(3);
+    await testGetSomeProducts(3, 1);
+    await testGetSomeProducts(3, 2);
+    await testGetAllOrders();
+    await testGetCart({id: 1});
+    await testGetCart({email: "arc@shop.com"});
     // await testClearCart({id: 1});
     // await testOrderCart({id: 1});
 })();
