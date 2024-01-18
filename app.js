@@ -1,45 +1,23 @@
 var http = require('http');
 var express = require('express');
+const config = require('./src/db/config');
+const ProductRepository = require('./src/db/ProductRepository');
+
 var app = express();
+
+const productRepo = new ProductRepository();
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
 app.use(express.urlencoded({extended:true}));
 
-
-var a = [];
-a[0] = {
-    name: "bananas",
-    price: 2.50,
-    description:"bananas from brazil, price per kg",
-    quantity: 45
-}
-
-a[1] = {
-    name: "oreos",
-    price: 5.00,
-    description:"standard oreos",
-    quantity: 30
-}
-
-a[2] = {
-    name: "water Żywiec Zdrój",
-    price: 1.23,
-    description:"1l",
-    quantity: 25
-}
-a[3] = {
-    name: "orange juice Tymbark",
-    price: 2.50,
-    description:"1 liter",
-    quantity: 5
-}
-
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     var name = req.query.name;
     var surname = req.query.surname;
-    res.render('index', {name, surname, products: a});
+
+    const products = (await productRepo.getProducts()).rows;
+    res.render('index', {name, surname, products: products});
 });
 
 app.get('/shopping_cart', (req, res) => {
