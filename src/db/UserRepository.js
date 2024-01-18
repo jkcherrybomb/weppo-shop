@@ -63,7 +63,7 @@ class UserRepository {
             await client.query("BEGIN");
             
             const userQuery = {
-                text: `INSERT INTO "user"(name, email, balance) VALUES($1, $2, 0) RETURNING id`,
+                text: `INSERT INTO "user"(name, email) VALUES($1, $2) RETURNING id`,
                 values: [name, email]
             };
 
