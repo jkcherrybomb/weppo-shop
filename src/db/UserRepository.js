@@ -132,10 +132,28 @@ class UserRepository {
     async getAllUsers() {
         const query = {
             text: 'SELECT * FROM "user"',
-            params: []
+            values: []
         };
 
         return this.pool.query(query);
+    }
+
+    async getEmail(user_id) {
+        const query = {
+            text: 'SELECT email FROM "user" WHERE id = $1',
+            values: [user_id]
+        };
+
+        return (await this.pool.query(query)).rows[0].email;
+    }
+
+    async getId(user_email) {
+        const query = {
+            text: 'SELECT id FROM "user" WHERE email = $1',
+            values: [user_email]
+        };
+
+        return (await this.pool.query(query)).rows[0].id;
     }
 
     async close() {
