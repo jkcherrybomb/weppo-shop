@@ -1,49 +1,77 @@
 var http = require('http');
 var express = require('express');
+const config = require('./src/db/config');
+const ProductRepository = require('./src/db/ProductRepository');
+const CartRepository = require('./src/db/CartRepository');
+
 var app = express();
+
+const productRepo = new ProductRepository();
+const cartRepo = new CartRepository();
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
 app.use(express.urlencoded({extended:true}));
 
-
-var a = [];
-a[0] = {
-    name: "bananas",
-    price: 2.50,
-    description:"bananas from brazil, price per kg",
-    quantity: 45
-}
-
-a[1] = {
-    name: "oreos",
-    price: 5.00,
-    description:"standard oreos",
-    quantity: 30
-}
-
-a[2] = {
-    name: "water Żywiec Zdrój",
-    price: 1.23,
-    description:"1l",
-    quantity: 25
-}
-a[3] = {
-    name: "orange juice Tymbark",
-    price: 2.50,
-    description:"1 liter",
-    quantity: 5
-}
-
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
     var name = req.query.name;
     var surname = req.query.surname;
-    res.render('index', {name, surname, products: a});
+
+    const products = (await productRepo.getProducts()).rows;
+    res.render('index', {name, surname, products: products});
 });
 
-app.get('/shopping_cart', (req, res) => {
-    res.render('shopping_cart', {products: a});
+app.post('/add_to_cart', async (req, res) => {
+    try {
+        await cartRepo.addToCart({
+            // REPLACE
+            user_id: USER_ID,
+            product_id: req.body.product_id,
+            quantity: req.body.quantity
+        });
+    } catch (err) {
+        console.error(err);
+    }
+
+    res.redirect('/');
+});
+
+app.get('/shopping_cart', async (req, res) => {
+    const user_info = {
+        id: USER_ID,
+        // OR
+        email: USER_EMAIL
+        // WHICHEVER ONE YOU'RE STORING ABOUT THE LOGGED-IN USER
+    };
+    const cartEntries = (await cartRepo.getCart(user_info)).rows;
+    res.render('shopping_cart', {cartEntries: cartEntries});
+});
+
+app.post('/shopping_cart', async (req, res) => {
+    const user_info = {
+        id: USER_ID,
+        // OR
+        email: USER_EMAIL
+    };
+    cartRepo.removeCartEntry(req.body.entry_id, user_info);
+    const cartEntries = (await cartRepo.getCart(user_info)).rows;
+    res.render('shopping_cart', {cartEntries: cartEntries});
+});
+
+app.get('/submit_cart', async (req, res) => {
+    try {
+        // const user_info = {
+        //     id: USER_ID,
+        //     // OR
+        //     email: USER_EMAIL
+        // };
+        // await cartRepo.orderCart(user_info);
+        res.redirect('thankyou');
+    } catch (err) {
+        console.error(err);
+        res.redirect('shopping_cart');
+    }
 });
 
 app.get('/thankyou', (req, res) => {
@@ -55,11 +83,24 @@ app.get('/admin_page', (req, res) => {
     res.render('admin_page');
 });
 
-app.post('/admin_page', (req, res) => {
+app.post('/admin_page', async (req, res) => {
     var name = req.body.name;
     var price = req.body.price;
     var description = req.body.description;
     var quantity = req.body.quantity;
+
+    try {
+        await productRepo.insert({
+            name: name,
+            price: price,
+            description: description,
+            quantity: quantity
+        });
+
+        res.render('admin_page');
+    } catch (err) {
+        res.render('admin_page', {errorMessage: err});
+    }
 });
 
 app.get( '/login_page', (req, res) => {
