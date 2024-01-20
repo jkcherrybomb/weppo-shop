@@ -22,9 +22,56 @@ app.get('/', async (req, res) => {
     res.render('index', {name, surname, products: products});
 });
 
+app.post('/add_to_cart', async (req, res) => {
+    try {
+        await cartRepo.addToCart({
+            // REPLACE
+            user_id: USER_ID,
+            product_id: req.body.product_id,
+            quantity: req.body.quantity
+        });
+    } catch (err) {
+        console.error(err);
+    }
+
+    res.redirect('/');
+});
+
 app.get('/shopping_cart', async (req, res) => {
-    const cartEntries = (await cartRepo.getCart({id: 29})).rows;
+    const user_info = {
+        id: USER_ID,
+        // OR
+        email: USER_EMAIL
+        // WHICHEVER ONE YOU'RE STORING ABOUT THE LOGGED-IN USER
+    };
+    const cartEntries = (await cartRepo.getCart(user_info)).rows;
     res.render('shopping_cart', {cartEntries: cartEntries});
+});
+
+app.post('/shopping_cart', async (req, res) => {
+    const user_info = {
+        id: USER_ID,
+        // OR
+        email: USER_EMAIL
+    };
+    cartRepo.removeCartEntry(req.body.entry_id, user_info);
+    const cartEntries = (await cartRepo.getCart(user_info)).rows;
+    res.render('shopping_cart', {cartEntries: cartEntries});
+});
+
+app.get('/submit_cart', async (req, res) => {
+    try {
+        // const user_info = {
+        //     id: USER_ID,
+        //     // OR
+        //     email: USER_EMAIL
+        // };
+        // await cartRepo.orderCart(user_info);
+        res.redirect('thankyou');
+    } catch (err) {
+        console.error(err);
+        res.redirect('shopping_cart');
+    }
 });
 
 app.get('/thankyou', (req, res) => {
@@ -43,8 +90,6 @@ app.post('/admin_page', async (req, res) => {
     var quantity = req.body.quantity;
 
     try {
-        // throw "Failed to add the product.";
-
         await productRepo.insert({
             name: name,
             price: price,
