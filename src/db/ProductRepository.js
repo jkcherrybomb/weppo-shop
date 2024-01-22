@@ -44,7 +44,7 @@ class ProductRepository {
         return this.pool.query(query);
     }
 
-    async getProducts(limit = -1, page = 0) {
+    async getProducts(substring = "", limit = -1, page = 0) {
         let offset = limit * page;
 
         if (limit < 0) {
@@ -55,9 +55,11 @@ class ProductRepository {
         const query = {
             text: `SELECT *
             FROM product
+            WHERE name ILIKE $1
+                OR description ILIKE $1
             ORDER BY id
-            LIMIT ${limit} OFFSET $1`,
-            values: [offset]
+            LIMIT ${limit} OFFSET $2`,
+            values: [`%${substring}%`, offset]
         };
 
         return this.pool.query(query);
