@@ -18,7 +18,9 @@ app.get('/', async (req, res) => {
     var name = req.query.name;
     var surname = req.query.surname;
 
-    const products = (await productRepo.getProducts()).rows;
+    const substring = req.query.q ?? "";
+
+    const products = (await productRepo.getProducts(substring)).rows;
     res.render('index', {name, surname, products: products});
 });
 
