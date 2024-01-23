@@ -48,9 +48,9 @@ class CartRepository {
     async removeCartEntry(entry_id, user_info) {
         let user_id;
 
-        if ("id" in user_info) {
+        if (user_info.id) {
             user_id = user_info["id"];
-        } else if ("email" in user_info) {
+        } else if (user_info.email) {
             const userQuery = {
                 text: `SELECT id
                 FROM "user"
