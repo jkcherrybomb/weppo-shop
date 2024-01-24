@@ -38,7 +38,8 @@ async function get_user_from_cookie(req, res, next){
 
 
 app.get('/', async (req, res) => {
-    const products = (await productRepo.getProducts()).rows;
+    const substring = req.query.q ?? "";
+    const products = (await productRepo.getProducts(substring)).rows;
     res.render('index', {user: req.user, products: products});
 });
 

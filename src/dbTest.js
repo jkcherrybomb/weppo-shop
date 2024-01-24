@@ -144,7 +144,7 @@ async function testGetAllProducts() {
 async function testGetSomeProducts(limit, page) {
     const productRepo = new ProductRepository();
 
-    const result = await productRepo.getProducts(limit, page);
+    const result = await productRepo.getProducts("", limit, page);
     console.table(result.rows);
 
     productRepo.close();
