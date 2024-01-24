@@ -15,7 +15,9 @@
       Welcome, what do you need today?
     </h1> 
   </div>
-  
+  <% if (products.length == 0) {%>
+    <p>We've found no products, sorry </p>
+  <%} %>
 
   <% products.forEach( product => { %>
       <div class="p-3">

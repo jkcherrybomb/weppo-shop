@@ -36,7 +36,6 @@ async function get_user_from_cookie(req, res, next){
     next();
 }
 
-
 app.get('/', async (req, res) => {
     const substring = req.query.q ?? "";
     const products = (await productRepo.getProducts(substring)).rows;
@@ -64,7 +63,7 @@ app.get('/shopping_cart', async (req, res) => {
 });
 
 app.post('/delete_item', async (req, res) => {
-    await cartRepo.removeCartEntry(req.body.entry_id, req.user);
+    awaitcartRepo.removeCartEntry(req.body.entry_id, req.user);
     res.redirect('shopping_cart');
 });
 
@@ -132,18 +131,6 @@ app.post('/create_account', async (req, res) => {
 app.post('/log_out', async (req, res) => {
     logout_user(res);
     res.redirect('/');
-});
-
-var b = [];
-b[0] = {
-    name: "bananas",
-    price: 2.50,
-    description:"bananas from brazil, price per kg",
-    quantity: 45
-}
-
-app.get('/search', (req, res) => {
-    res.render('search', {products: b});
 });
 
 
