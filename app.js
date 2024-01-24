@@ -62,13 +62,12 @@ app.get('/shopping_cart', async (req, res) => {
     res.render('shopping_cart', {user: req.user, cartEntries: cartEntries});
 });
 
-app.post('/shopping_cart', async (req, res) => {
-    cartRepo.removeCartEntry(req.body.entry_id, req.user);
-    const cartEntries = (await cartRepo.getCart(req.user)).rows;
-    res.render('shopping_cart', {user: req.user, cartEntries: cartEntries});
+app.post('/delete_item', async (req, res) => {
+    await cartRepo.removeCartEntry(req.body.entry_id, req.user);
+    res.redirect('shopping_cart');
 });
 
-app.get('/submit_cart', async (req, res) => {
+app.post('/submit_cart', async (req, res) => {
     try {
         await cartRepo.orderCart(req.user);
         res.redirect('thankyou');
