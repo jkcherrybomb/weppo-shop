@@ -32,16 +32,14 @@ async function get_user_from_cookie(req, res, next){
     }
     catch(err){
         req.user = null;
-        console.error(err);
     }
     next();
 }
 
 
 app.get('/', async (req, res) => {
-    let user = req.user;
     const products = (await productRepo.getProducts()).rows;
-    res.render('index', {user, products: products});
+    res.render('index', {user: req.user, products: products});
 });
 
 app.post('/add_to_cart', async (req, res) => {
@@ -80,12 +78,12 @@ app.get('/submit_cart', async (req, res) => {
 });
 
 app.get('/thankyou', (req, res) => {
-    res.render('thankyou');
+    res.render('thankyou', {user: req.user});
 });
 
 
 app.get( '/login_page', (req, res) => {
-    res.render('login_page');
+    res.render('login_page', {user: req.user});
 });
 
 app.post('/login_page', async (req, res) => {
@@ -93,7 +91,10 @@ app.post('/login_page', async (req, res) => {
     var password = req.body.password;
     try{
        let logged = await userRepo.verifyPassword(email, password);
-       if (logged) res.redirect('/');
+       if (logged) {
+        login_user(res, await userRepo.getId(email));
+        res.redirect('/');
+       }
        else res.redirect('/login_page');
     }
     catch(err){
@@ -103,7 +104,7 @@ app.post('/login_page', async (req, res) => {
 });
 
 app.get('/create_account', (req, res) => {
-    res.render('create_account');
+    res.render('create_account', {user: req.user});
 });
 
 app.post('/create_account', async (req, res) => {
@@ -122,7 +123,7 @@ app.post('/create_account', async (req, res) => {
     }    
 });
 
-app.post('/logout', async (req, res) => {
+app.post('/log_out', async (req, res) => {
     logout_user(res);
     res.redirect('/');
 });
