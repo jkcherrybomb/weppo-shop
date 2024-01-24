@@ -57,6 +57,7 @@ app.post('/add_to_cart', async (req, res) => {
 });
 
 app.get('/shopping_cart', async (req, res) => {
+    if (!req.user) res.render('cart_sorry', {user: req.user});
     const cartEntries = (await cartRepo.getCart(req.user)).rows;
     res.render('shopping_cart', {user: req.user, cartEntries: cartEntries});
 });
@@ -95,11 +96,14 @@ app.post('/login_page', async (req, res) => {
         login_user(res, await userRepo.getId(email));
         res.redirect('/');
        }
-       else res.redirect('/login_page');
+       else {
+        console.log('false')
+        throw new Error('Wrong email or password');
+       }
     }
     catch(err){
-        console.log(err);
-        res.redirect('/login_page');
+        console.log('error')
+        res.render('login_page', {errorMessage: err, user: req.user});
     }
 });
 
@@ -109,17 +113,19 @@ app.get('/create_account', (req, res) => {
 
 app.post('/create_account', async (req, res) => {
     var name = req.body.name;
-    var surname = req.body.surname;
     var email = req.body.email;
     var password = req.body.password;
     try {
+        if (!email.includes('@')) {
+            throw new Error('This is not an email. Please try again');
+        }
         await userRepo.register(name, email, password);
         login_user(res, await userRepo.getId(email));
         res.redirect('/');
     }
     catch(err){
         console.log(err)
-        res.redirect('/create_account');
+        res.render('create_account', {errorMessage: err, user: null});
     }    
 });
 
@@ -173,6 +179,10 @@ app.get('/see_users', async (req, res) => {
 app.get('/see_products', async (req, res) => {
     const products = (await productRepo.getProducts()).rows;
     res.render('see_products', {products: products});
+});
+
+app.use((req,res,next) => {
+    res.render('404.ejs', { url : req.url, user: req.user });
 });
 
 
