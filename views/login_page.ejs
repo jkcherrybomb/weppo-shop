@@ -11,17 +11,22 @@
   <body>
     <header><%- include('../overall/header'); %></header>
     <h3>Log into your account</h3>
+    <% if (locals.errorMessage != null && locals.errorMessage != undefined) { %>
+      <div class="alert alert-danger" role="alert">
+        <%= errorMessage %>
+      </div>
+    <% } %>
     <form method="POST">
       <div class="mb-3">
-      : <input class="form-control" type='text' name='email'/>
+      Email: <input class="form-control" type='text' placeholder="name@example.com" name='email'/>
       </div>
       <div class="mb-3">
-        Password: <input class="form-control" type='text' name='password'/>
+        Password: <input class="form-control" type="password" name='password'/>
       </div>
       <div>
         <button class="btn btn-primary" type="submit" style="background-color: #612ee7; border-color: #612ee7;">Log In</button>
       </div>
-      </form>
+    </form>
     <br>
     <br>
     <div class="row">

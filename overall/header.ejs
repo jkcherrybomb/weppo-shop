@@ -13,16 +13,23 @@
   
   <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-              <a class="nav-link" href="/login_page">Log In</a>
-          </li>
+          <% if (user) { %>
+        <li class="nav-item">
+            <form method="POST" action="/log_out">
+                <button class="btn btn-primary" type="submit">Log Out</button>
+            </form>
+        </li>
           <li class="nav-item">
               <a class="nav-link" href="/shopping_cart">Your Shopping Cart</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="/admin_page">Admin Panel</a>
+              <a class="nav-link" href="/add_product">Admin Panel</a>
           </li>
-      </ul>
+          <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/login_page">Log In</a>
+          </li>
+          <% } %>
     </ul>
   </div>
 </nav>

@@ -12,10 +12,8 @@
     <header><%- include('../overall/header'); %></header>
     <div class="container-fluid">
     <h1>  
-      Welcome,  
-      <%= name %> 
+      Welcome, what do you need today?
     </h1> 
-    <h5>What do you need today?</h5>
   </div>
   
 
@@ -24,11 +22,13 @@
         <div class="container-fluid" style="background-color: #e6e6fa;">
           <div class="d-flex justify-content-between align-items-center">
             <h3 class="mr-auto"> <%= product.name %></h3>
+            <% if (user) { %>
             <form action="/add_to_cart" method="post">
               <input type="hidden" name="product_id" value="<%= product.id %>">
               <input type="number" min="1" name="quantity" class="btn" style="width: 5em; border: 1px solid #612ee7; margin: 1em;" value="1"/>
               <input type="submit" class="btn btn-success me-md-2" style="background-color: #612ee7; border-color: #612ee7;" mr-auto value="Add to cart" />
             </form>
+            <% } %>
           </div>
           <h5>price: <%= product.price %></h5>
           <h5><%= product.description %></h5>

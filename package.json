@@ -4,7 +4,7 @@
   "description": "projekt na weppo",
   "main": "app.js",
   "scripts": {
-    "watch": "nodemon ./start.js"
+    "watch": "nodemon ./app.js"
   },
   "repository": {
     "type": "git",
@@ -18,10 +18,10 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
-    "pg": "^8.11.3",
-    "pug": "^3.0.2"
+    "pg": "^8.11.3"
   }
 }

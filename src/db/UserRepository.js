@@ -92,7 +92,8 @@ class UserRepository {
             values: [user_email]
         });
         if (selectUserResult.rows.length == 0) {
-            return Promise.reject(new Error(`There is no user with the specified email: '${user_email}'`));
+            return false;
+            //return Promise.reject(new Error(`There is no user with the specified email: '${user_email}'`));
         }
         const user_id = selectUserResult.rows[0].id;
 
@@ -136,6 +137,20 @@ class UserRepository {
         };
 
         return this.pool.query(query);
+    }
+
+
+
+    async getUser(user_id) {
+        const query = {
+            text: 'SELECT * FROM "user" WHERE id = $1',
+            values: [user_id]
+        };
+        let result = (await this.pool.query(query)).rows[0];
+        if (! result) {
+            throw new Error();
+        }
+        return result;
     }
 
     async getEmail(user_id) {
