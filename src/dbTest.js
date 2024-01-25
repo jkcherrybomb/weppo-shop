@@ -186,24 +186,74 @@ async function testOrderCart(user_info) {
     cartRepo.close();
 }
 
+async function testAddRole() {
+    const userRepo = new UserRepository();
+
+    const result = await userRepo.addRole("Spectator");
+    console.log(result);
+
+    userRepo.close();
+}
+
+async function testRemoveRole() {
+    const userRepo = new UserRepository();
+
+    const result = await userRepo.removeRole("Spectator");
+    console.log(result);
+
+    userRepo.close();
+}
+
+async function testAddRoleToUser() {
+    const userRepo = new UserRepository();
+
+    const result = await userRepo.addRoleToUser("Spectator", 29);
+    console.log(result);
+
+    userRepo.close();
+}
+
+async function testRemoveRoleFromUser() {
+    const userRepo = new UserRepository();
+
+    const result = await userRepo.removeRoleFromUser("admin", 29);
+    console.log(result);
+
+    userRepo.close();
+}
+
+async function testGetUserRoles() {
+    const userRepo = new UserRepository();
+
+    const result = await userRepo.getUserRoles(29);
+    console.log(result);
+
+    userRepo.close();
+}
+
 (async function main() {
-    await testProductSelect();
+    // await testProductSelect();
     // await testUserRegister();
-    await testUserLogIn();
-    await testUserRoleCheck();
+    // await testUserLogIn();
+    // await testUserRoleCheck();
     // await testOrderComplete();
-    await testGetAllUsers();
-    await testGetAllProducts();
-    await testGetSomeProducts(2);
-    await testGetSomeProducts(2, 0);
-    await testGetSomeProducts(2, 1);
-    await testGetSomeProducts(2, 2);
-    await testGetSomeProducts(3);
-    await testGetSomeProducts(3, 1);
-    await testGetSomeProducts(3, 2);
-    await testGetAllOrders();
-    await testGetCart({id: 1});
-    await testGetCart({email: "arc@shop.com"});
+    // await testGetAllUsers();
+    // await testGetAllProducts();
+    // await testGetSomeProducts(2);
+    // await testGetSomeProducts(2, 0);
+    // await testGetSomeProducts(2, 1);
+    // await testGetSomeProducts(2, 2);
+    // await testGetSomeProducts(3);
+    // await testGetSomeProducts(3, 1);
+    // await testGetSomeProducts(3, 2);
+    // await testGetAllOrders();
+    // await testGetCart({id: 1});
+    // await testGetCart({email: "arc@shop.com"});
     // await testClearCart({id: 1});
     // await testOrderCart({id: 1});
+    // await testAddRole();
+    // await testRemoveRole();
+    // await testAddRoleToUser();
+    // await testRemoveRoleFromUser();
+    // await testGetUserRoles();
 })();

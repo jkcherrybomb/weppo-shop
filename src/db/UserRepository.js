@@ -171,6 +171,76 @@ class UserRepository {
         return (await this.pool.query(query)).rows[0].id;
     }
 
+    async addRole(role_name) {
+        const query = {
+            text: `INSERT INTO role(name)
+            VALUES($1)`,
+            values: [role_name]
+        };
+
+        return this.pool.query(query);
+    }
+
+    async removeRole(role_name) {
+        const query = {
+            text: `DELETE FROM role
+            WHERE name = $1`,
+            values: [role_name]
+        };
+
+        return this.pool.query(query);
+    }
+
+    async addRoleToUser(role_name, user_id) {
+        const selectQuery = {
+            text: `SELECT id
+            FROM role
+            WHERE name = $1`,
+            values: [role_name]
+        };
+
+        const role_id = (await this.pool.query(selectQuery)).rows[0].id;
+        
+        const insertQuery = {
+            text: `INSERT INTO userrole(user_id, role_id)
+            VALUES($1, $2)`,
+            values: [user_id, role_id]
+        };
+
+        return this.pool.query(insertQuery);
+    }
+
+    async removeRoleFromUser(role_name, user_id) {
+        const selectQuery = {
+            text: `SELECT id
+            FROM role
+            WHERE name = $1`,
+            values: [role_name]
+        };
+
+        const role_id = (await this.pool.query(selectQuery)).rows[0].id;
+        
+        const deleteQuery = {
+            text: `DELETE FROM userrole
+            WHERE user_id = $1 AND role_id = $2`,
+            values: [user_id, role_id]
+        };
+
+        return this.pool.query(deleteQuery);
+    }
+
+    async getUserRoles(user_id) {
+        const query = {
+            text: `SELECT role.name
+            FROM userrole
+                JOIN role ON userrole.role_id = role.id
+            WHERE userrole.user_id = $1`,
+            values: [user_id]
+        };
+
+        return (await this.pool.query(query)).rows.map(x => x.name);
+    }
+
     async close() {
         this.pool.end();
     }
