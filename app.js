@@ -158,7 +158,7 @@ app.post('/add_product', async (req, res) => {
             quantity: quantity
         });
 
-        res.render('add_product');
+        res.render('add_product', {user: req.user});
     } catch (err) {
         res.render('add_product', {errorMessage: err});
     }
