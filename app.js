@@ -31,6 +31,7 @@ function logout_user(res){
 async function get_user_from_cookie(req, res, next){
     try {
         req.user = await userRepo.getUser(req.signedCookies.user_id);
+        req.user.roles = await userRepo.getUserRoles(req.signedCookies.user_id);
     }
     catch(err){
         req.user = null;
@@ -98,12 +99,10 @@ app.post('/login_page', async (req, res) => {
         res.redirect('/');
        }
        else {
-        console.log('false')
         throw new Error('Wrong email or password');
        }
     }
     catch(err){
-        console.log('error')
         res.render('login_page', {errorMessage: err, user: req.user});
     }
 });
@@ -137,7 +136,11 @@ app.post('/log_out', async (req, res) => {
 
 
 app.get('/add_product', (req, res) => {
-    res.render('add_product');
+    if (!req.user) res.render('sorry_admin', {user: req.user});
+    else if (req.user && !req.user.roles.includes("admin")) {
+        res.render('sorry_admin', {user: req.user});
+    }
+    else res.render('add_product', {user: req.user});
 });
 
 app.post('/add_product', async (req, res) => {
@@ -161,8 +164,14 @@ app.post('/add_product', async (req, res) => {
 });
 
 app.get('/see_users', async (req, res) => {
-    const users = (await userRepo.getAllUsers()).rows;
-    res.render('see_users', {users});
+    if (!req.user) res.render('sorry_admin', {user: req.user});
+    else if (req.user && !req.user.roles.includes("admin")) {
+        res.render('sorry_admin', {user: req.user});
+    }
+    else {
+        const users = (await userRepo.getAllUsers()).rows;
+        res.render('see_users', {users});
+    }
 });
 
 app.post('/delete_user', async (req, res) => {
@@ -171,8 +180,14 @@ app.post('/delete_user', async (req, res) => {
 });
 
 app.get('/see_products', async (req, res) => {
+    if (!req.user) res.render('sorry_admin', {user: req.user});
+    else if (req.user && !req.user.roles.includes("admin")) {
+        res.render('sorry_admin', {user: req.user});
+    }
+    else {
     const products = (await productRepo.getProducts()).rows;
     res.render('see_products', {products: products});
+    }
 });
 
 app.post('/delete_product_button', async (req, res) => {
@@ -187,10 +202,16 @@ app.post('/edit_product_button', async (req, res) => {
 });
 
 app.get('/edit_product', async (req, res) => {
+    if (!req.user) res.render('sorry_admin', {user: req.user});
+    else if (req.user && !req.user.roles.includes("admin")) {
+        res.render('sorry_admin', {user: req.user});
+    }
+    else {
     var product_id = req.query.product_id;
     var product = await productRepo.getProduct(product_id)
     console.log(product);
     res.render('edit_product', {product_id, product});
+    }
 });
 
 app.post('/edit_product', async (req, res) => {
@@ -216,9 +237,15 @@ app.post('/edit_product', async (req, res) => {
 });
 
 app.get('/see_orders', async (req, res) => {
+    if (!req.user) res.render('sorry_admin', {user: req.user});
+    else if (req.user && !req.user.roles.includes("admin")) {
+        res.render('sorry_admin', {user: req.user});
+    }
+    else {
     let all_orders = (await orderRepo.getAllOrders()).rows;
     console.log(all_orders)
     res.render('see_orders', {all_orders});
+    }
 });
 
 

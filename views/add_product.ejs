@@ -10,6 +10,9 @@
   </head>
   <body>
     <header><%- include('../overall/admin_navbar'); %></header>
+    <% if (! user.roles.includes("admin")) { %>
+      <h1>GO AWAY</h1>
+    <% } %>
     <h3>Add a new product</h3>
     <% if (locals.errorMessage != null && locals.errorMessage != undefined) { %>
       <div class="alert alert-danger" role="alert">

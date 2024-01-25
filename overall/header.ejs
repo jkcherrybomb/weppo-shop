@@ -22,9 +22,11 @@
           <li class="nav-item">
               <a class="nav-link" href="/shopping_cart">Your Shopping Cart</a>
           </li>
+          <% if (user.roles.includes("admin")) { %>
           <li class="nav-item">
               <a class="nav-link" href="/add_product">Admin Panel</a>
           </li>
+          <% } %>
           <% } else { %>
           <li class="nav-item">
             <a class="nav-link" href="/login_page">Log In</a>
