@@ -17,6 +17,22 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: public; Type: SCHEMA; Schema: -; Owner: weppo_admin
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+ALTER SCHEMA public OWNER TO weppo_admin;
+
+--
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: weppo_admin
+--
+
+COMMENT ON SCHEMA public IS '';
+
+
+--
 -- Name: order_set_completed_at(); Type: FUNCTION; Schema: public; Owner: weppo_admin
 --
 
@@ -363,10 +379,10 @@ ALTER TABLE ONLY public.userrole
 
 
 --
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: pg_database_owner
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: weppo_admin
 --
 
-GRANT ALL ON SCHEMA public TO weppo_admin;
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 
 
 --
