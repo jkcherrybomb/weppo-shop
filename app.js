@@ -5,12 +5,14 @@ const config = require('./src/db/config');
 const ProductRepository = require('./src/db/ProductRepository');
 const CartRepository = require('./src/db/CartRepository');
 const UserRepository = require('./src/db/UserRepository');
+const OrderRepository = require('./src/db/OrderRepository');
 
 var app = express();
 
 const productRepo = new ProductRepository();
 const cartRepo = new CartRepository();
 const userRepo = new UserRepository();
+const orderRepo = new OrderRepository();
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -39,7 +41,7 @@ async function get_user_from_cookie(req, res, next){
 app.get('/', async (req, res) => {
     const substring = req.query.q ?? "";
     const products = (await productRepo.getProducts(substring)).rows;
-    res.render('index', {user: req.user, products: products});
+    res.render('index', {user: req.user, products});
 });
 
 app.post('/add_to_cart', async (req, res) => {
@@ -63,7 +65,7 @@ app.get('/shopping_cart', async (req, res) => {
 });
 
 app.post('/delete_item', async (req, res) => {
-    awaitcartRepo.removeCartEntry(req.body.entry_id, req.user);
+    await cartRepo.removeCartEntry(req.body.entry_id, req.user);
     res.redirect('shopping_cart');
 });
 
@@ -160,13 +162,65 @@ app.post('/add_product', async (req, res) => {
 
 app.get('/see_users', async (req, res) => {
     const users = (await userRepo.getAllUsers()).rows;
-    res.render('see_users', {users: users});
+    res.render('see_users', {users});
+});
+
+app.post('/delete_user', async (req, res) => {
+    await userRepo.delete(req.body.user_id);
+    res.redirect('see_users');
 });
 
 app.get('/see_products', async (req, res) => {
     const products = (await productRepo.getProducts()).rows;
     res.render('see_products', {products: products});
 });
+
+app.post('/delete_product_button', async (req, res) => {
+    await productRepo.delete(req.body.product_id);
+    res.redirect('see_products');
+});
+
+app.post('/edit_product_button', async (req, res) => {
+    let product_id = req.body.product_id;
+    console.log(product_id);
+    res.redirect('/edit_product?product_id='+product_id);
+});
+
+app.get('/edit_product', async (req, res) => {
+    var product_id = req.query.product_id;
+    var product = await productRepo.getProduct(product_id)
+    console.log(product);
+    res.render('edit_product', {product_id, product});
+});
+
+app.post('/edit_product', async (req, res) => {
+    var name = req.body.name;
+    var price = Number(req.body.price);
+    var description = req.body.description;
+    var quantity = Number(req.body.quantity);
+    var product_id = req.query.product_id;
+    try {
+        await productRepo.update(product_id, {
+            name: name,
+            price: price,
+            description: description,
+            quantity: quantity
+        });
+
+        res.redirect('see_products');
+    } catch (err) {
+        console.log(err);
+        var product = await productRepo.getProduct(product_id)
+        res.render('edit_product', {product_id, product, errorMessage: err});
+    }
+});
+
+app.get('/see_orders', async (req, res) => {
+    let all_orders = (await orderRepo.getAllOrders()).rows;
+    console.log(all_orders)
+    res.render('see_orders', {all_orders});
+});
+
 
 app.use((req,res,next) => {
     res.render('404.ejs', { url : req.url, user: req.user });

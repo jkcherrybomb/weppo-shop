@@ -44,6 +44,15 @@ class ProductRepository {
         return this.pool.query(query);
     }
 
+    async getProduct(product_id) {
+        const query = {
+            text: `SELECT * FROM product WHERE id = $1`,
+            values: [product_id]
+        };
+        let result = (await this.pool.query(query)).rows[0];
+        return result;
+    }
+
     async getProducts(substring = "", limit = -1, page = 0) {
         let offset = limit * page;
 

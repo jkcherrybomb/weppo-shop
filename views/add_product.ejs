@@ -5,14 +5,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Online Shop Admin panel</title>
+    <title>Online Shop Add Products</title>
     <%- include('../overall/layout'); %>
   </head>
   <body>
-    <header><%- include('../overall/header'); %></header>
+    <header><%- include('../overall/admin_navbar'); %></header>
     <h3>Add a new product</h3>
     <% if (locals.errorMessage != null && locals.errorMessage != undefined) { %>
-      <h4> <%= errorMessage %> </h4>
+      <div class="alert alert-danger" role="alert">
+        <%= errorMessage %>
+      </div>
     <% } %>
     <form method="POST">
       <div class="mb-3">

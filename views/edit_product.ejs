@@ -1,0 +1,37 @@
+<!-- views/admin_page.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Online Shop Add Products</title>
+    <%- include('../overall/layout'); %>
+  </head>
+  <body>
+    <header><%- include('../overall/admin_navbar'); %></header>
+    <% if (locals.errorMessage != null && locals.errorMessage != undefined) { %>
+        <div class="alert alert-danger" role="alert">
+          <%= errorMessage %>
+        </div>
+    <% } %>
+    <form method="POST">
+      <input type="hidden" name="product_id" value="<%= product_id %>"/>
+      <div class="mb-3">
+      Name: <input class="form-control" value="<%= product.name %>" type='text' name='name'/>
+      </div>
+      <div class="mb-3">
+      Price: <input class="form-control" value="<%= product.price %>" type='number' name='price'/>
+      </div>
+      <div class="mb-3">
+      Description: <input class="form-control" type='text' value="<%= product.description %>" name='description'/>
+      </div>
+      <div class="mb-3">
+      Quantity: <input class="form-control" value="<%= product.quantity %>" type='number' name='quantity'/>
+      </div>
+      <div>
+        <button class="btn btn-primary" type="submit" style="background-color: #612ee7; border-color: #612ee7";>Add</button>
+      </div>
+      </form>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!-- views/admin_page.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Online Shop See Users</title>
+    <%- include('../overall/layout'); %>
+  </head>
+  <body>
+    <header><%- include('../overall/admin_navbar'); %></header>
+    <% users.forEach( user => { %>
+        <div class="p-3">
+          <div class="container-fluid" style="background-color: #e6e6fa;">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3 class="mr-auto"> <%= user.name %></h3>
+              <form method="post" action="/delete_user">
+                <input type="hidden" name="user_id" value="<%= user.id %>"/>
+                <button type="submit" class="btn btn-warning me-md-2" mr-auto>Remove user</button>
+              </form>
+            </div>
+            <h5>email: <%= user.email %></h5>
+          </div>
+      </div>
+    <% }) %>
+  </body>
+</html>
