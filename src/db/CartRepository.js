@@ -31,6 +31,8 @@ class CartRepository {
 
             const result = await this.pool.query(userQuery);
             cartQuery.values = [result.rows[0].id];
+        } else {
+            throw new Error("No user info supplied.");
         }
 
         return this.pool.query(cartQuery);
@@ -61,9 +63,7 @@ class CartRepository {
             const result = await this.pool.query(userQuery);
             user_id = result.rows[0].id;
         } else {
-            throw {
-                what: "No user identifier provided."
-            };
+            throw new Error("No user info supplied.");
         }
 
         const deleteQuery = {
@@ -92,6 +92,8 @@ class CartRepository {
 
             const result = await this.pool.query(userQuery);
             cartQuery.values = [result.rows[0].id];
+        } else {
+            throw new Error("No user info supplied.");
         }
 
         return this.pool.query(cartQuery);
