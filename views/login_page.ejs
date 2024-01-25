@@ -12,27 +12,42 @@
     <header><%- include('../overall/header'); %></header>
     <h3>Log into your account</h3>
     <% if (locals.errorMessage != null && locals.errorMessage != undefined) { %>
-      <div class="alert alert-danger" role="alert">
-        <%= errorMessage %>
-      </div>
+    <div class="alert alert-danger" role="alert"><%= errorMessage %></div>
     <% } %>
     <form method="POST">
       <div class="mb-3">
-      Email: <input class="form-control" type='text' placeholder="name@example.com" name='email'/>
+        Email:
+        <input
+          class="form-control"
+          type="text"
+          placeholder="name@example.com"
+          name="email"
+        />
       </div>
       <div class="mb-3">
-        Password: <input class="form-control" type="password" name='password'/>
+        Password: <input class="form-control" type="password" name="password" />
       </div>
       <div>
-        <button class="btn btn-primary" type="submit" style="background-color: #612ee7; border-color: #612ee7;">Log In</button>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          style="background-color: #612ee7; border-color: #612ee7"
+        >
+          Log In
+        </button>
       </div>
     </form>
-    <br>
-    <br>
+    <br />
+    <br />
     <div class="row">
       <h3 class="col-5">Don't have an account?</h3>
-      <a class="btn btn-primary" href="/create_account" type="button" style="background-color: #612ee7; border-color: #612ee7;" >Create a new account</a>
+      <a
+        class="btn btn-primary"
+        href="/create_account"
+        type="button"
+        style="background-color: #612ee7; border-color: #612ee7"
+        >Create a new account</a
+      >
     </div>
   </body>
-
 </html>

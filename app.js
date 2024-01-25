@@ -1,13 +1,13 @@
-var http = require('http');
-var express = require('express');
-var cookieParser = require('cookie-parser')
+let http = require('http');
+let express = require('express');
+let cookieParser = require('cookie-parser')
 const config = require('./src/db/config');
 const ProductRepository = require('./src/db/ProductRepository');
 const CartRepository = require('./src/db/CartRepository');
 const UserRepository = require('./src/db/UserRepository');
 const OrderRepository = require('./src/db/OrderRepository');
 
-var app = express();
+let app = express();
 
 const productRepo = new ProductRepository();
 const cartRepo = new CartRepository();
@@ -63,7 +63,7 @@ app.post('/add_to_cart', async (req, res) => {
 app.get('/shopping_cart', async (req, res) => {
     if (!req.user) res.render('cart_sorry', {user: req.user});
     const cartEntries = (await cartRepo.getCart(req.user)).rows;
-    res.render('shopping_cart', {user: req.user, cartEntries: cartEntries});
+    res.render('shopping_cart', {user: req.user, cartEntries});
 });
 
 app.post('/delete_item', async (req, res) => {
@@ -91,8 +91,8 @@ app.get( '/login_page', (req, res) => {
 });
 
 app.post('/login_page', async (req, res) => {
-    var email = req.body.email;
-    var password = req.body.password;
+    let email = req.body.email;
+    let password = req.body.password;
     try{
        let logged = await userRepo.verifyPassword(email, password);
        if (logged) {
@@ -113,9 +113,9 @@ app.get('/create_account', (req, res) => {
 });
 
 app.post('/create_account', async (req, res) => {
-    var name = req.body.name;
-    var email = req.body.email;
-    var password = req.body.password;
+    let name = req.body.name;
+    let email = req.body.email;
+    let password = req.body.password;
     try {
         if (!email.includes('@')) {
             throw new Error('This is not an email. Please try again');
@@ -145,10 +145,10 @@ app.get('/add_product', (req, res) => {
 });
 
 app.post('/add_product', async (req, res) => {
-    var name = req.body.name;
-    var price = req.body.price;
-    var description = req.body.description;
-    var quantity = req.body.quantity;
+    let name = req.body.name;
+    let price = req.body.price;
+    let description = req.body.description;
+    let quantity = req.body.quantity;
 
     try {
         await productRepo.insert({
@@ -198,7 +198,6 @@ app.post('/delete_product_button', async (req, res) => {
 
 app.post('/edit_product_button', async (req, res) => {
     let product_id = req.body.product_id;
-    console.log(product_id);
     res.redirect('/edit_product?product_id='+product_id);
 });
 
@@ -208,19 +207,18 @@ app.get('/edit_product', async (req, res) => {
         res.render('sorry_admin', {user: req.user});
     }
     else {
-    var product_id = req.query.product_id;
-    var product = await productRepo.getProduct(product_id)
-    console.log(product);
+    let product_id = req.query.product_id;
+    let product = await productRepo.getProduct(product_id)
     res.render('edit_product', {product_id, product});
     }
 });
 
 app.post('/edit_product', async (req, res) => {
-    var name = req.body.name;
-    var price = Number(req.body.price);
-    var description = req.body.description;
-    var quantity = Number(req.body.quantity);
-    var product_id = req.query.product_id;
+    let name = req.body.name;
+    let price = Number(req.body.price);
+    let description = req.body.description;
+    let quantity = Number(req.body.quantity);
+    let product_id = req.query.product_id;
     try {
         await productRepo.update(product_id, {
             name: name,
@@ -232,7 +230,7 @@ app.post('/edit_product', async (req, res) => {
         res.redirect('see_products');
     } catch (err) {
         console.log(err);
-        var product = await productRepo.getProduct(product_id)
+        let product = await productRepo.getProduct(product_id)
         res.render('edit_product', {product_id, product, errorMessage: err});
     }
 });

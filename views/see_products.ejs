@@ -11,23 +11,27 @@
   <body>
     <header><%- include('../overall/admin_navbar'); %></header>
     <% products.forEach( product => { %>
-      <div class="p-3">
-        <div class="container-fluid" style="background-color: #e6e6fa;">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="mr-auto"> <%= product.name %></h3>
-            <form method="post" action="/edit_product_button">
-              <input type="hidden" name="product_id" value="<%= product.id %>"/>
-              <button type="submit" class="btn btn-warning me-md-2" mr-auto>Edit item</button>
-            </form>
-            <form method="post" action="/delete_product_button">
-              <input type="hidden" name="product_id" value="<%= product.id %>"/>
-              <button type="submit" class="btn btn-danger me-md-2" mr-auto>Remove item</button>
-            </form>
-          </div>
-          <h5>price: <%= product.price %></h5>
-          <h5><%= product.description %></h5>
+    <div class="p-3">
+      <div class="container-fluid" style="background-color: #e6e6fa">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="mr-auto"><%= product.name %></h3>
+          <form method="post" action="/edit_product_button">
+            <input type="hidden" name="product_id" value="<%= product.id %>" />
+            <button type="submit" class="btn btn-warning me-md-2" mr-auto>
+              Edit item
+            </button>
+          </form>
+          <form method="post" action="/delete_product_button">
+            <input type="hidden" name="product_id" value="<%= product.id %>" />
+            <button type="submit" class="btn btn-danger me-md-2" mr-auto>
+              Remove item
+            </button>
+          </form>
         </div>
+        <h5>price: <%= product.price %></h5>
+        <h5><%= product.description %></h5>
       </div>
+    </div>
     <% }) %>
   </body>
 </html>

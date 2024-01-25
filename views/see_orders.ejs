@@ -11,21 +11,20 @@
   <body>
     <header><%- include('../overall/admin_navbar'); %></header>
     <% all_orders.forEach( order => { %>
-      <div class="p-3">
-        <div class="container-fluid" style="background-color: #e6e6fa;">
-          <div class="d-flex justify-content-between align-items-center">
-            <h3 class="mr-auto"> <h5><%= order.id %></h5></h3>
-          </div>
-          <h5>Buyer id: <%= order.buyer_id %></h5>
-          <h5>product id: <%= order.product_id %></h5>
-          <h5>quantity: <%= order.quantity %></h5>
-          <h5>ordered at: <%= order.ordered_at %></h5>
-          <h5>successful: <%= order.successful %></h5>
-          <h5>completed: <%= order.completed %></h5>
-          <h5>completed at: <%= order.completed_at %></h5>
+    <div class="p-3">
+      <div class="container-fluid" style="background-color: #e6e6fa">
+        <div class="d-flex justify-content-between align-items-center">
+          <h3 class="mr-auto"><h5><%= order.id %></h5></h3>
         </div>
+        <h5>Buyer id: <%= order.buyer_id %></h5>
+        <h5>product id: <%= order.product_id %></h5>
+        <h5>quantity: <%= order.quantity %></h5>
+        <h5>ordered at: <%= order.ordered_at %></h5>
+        <h5>successful: <%= order.successful %></h5>
+        <h5>completed: <%= order.completed %></h5>
+        <h5>completed at: <%= order.completed_at %></h5>
       </div>
+    </div>
     <% }) %>
   </body>
 </html>
-
