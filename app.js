@@ -189,6 +189,10 @@ app.get('/see_users', async (req, res) => {
     }
     else {
         const users = (await userRepo.getAllUsers()).rows;
+        for (let u of users) {
+           u.roles = await userRepo.getUserRoles(u.id);
+        }
+        console.log(users);
         res.render('see_users', {users});
     }
 });
