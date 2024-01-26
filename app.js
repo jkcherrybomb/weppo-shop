@@ -159,6 +159,9 @@ app.post('/add_product', async (req, res) => {
     let quantity = req.body.quantity;
 
     try {
+        if (quantity < 0)
+            throw new Error("Cannot add a negative amount of products.");
+
         await productRepo.insert({
             name: name,
             price: price,
@@ -168,7 +171,7 @@ app.post('/add_product', async (req, res) => {
 
         res.render('add_product', {user: req.user});
     } catch (err) {
-        res.render('add_product', {errorMessage: err});
+        res.render('add_product', {user: req.user, errorMessage: err});
     }
 });
 
@@ -228,6 +231,9 @@ app.post('/edit_product', async (req, res) => {
     let quantity = Number(req.body.quantity);
     let product_id = req.query.product_id;
     try {
+        if (quantity < 0)
+            throw new Error("Cannot add a negative amount of products.");
+        
         await productRepo.update(product_id, {
             name: name,
             price: price,
