@@ -16,7 +16,7 @@
         <div class="d-flex justify-content-between align-items-center">
           <h3 class="mr-auto"><h5><%= order.id %></h5></h3>
         </div>
-        <h5>Buyer: <%= order.buyer_email %></h5>
+        <h5>Buyer: <%= order.buyer_name %> (<%= order.buyer_email %>)</h5>
         <h5>product: <%= order.product_name %>, <%= order.product_description %></h5>
         <h5>quantity: <%= order.quantity %></h5>
         <h5>ordered at: <%= order.ordered_at %></h5>
