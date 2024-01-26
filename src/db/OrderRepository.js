@@ -73,7 +73,13 @@ class OrderRepository {
 
     async getAllOrders() {
         const query = {
-            text: `SELECT * FROM "order"`,
+            text: `SELECT "order".*, "user".email AS buyer_email, product.name AS product_name, product.description AS product_description
+            FROM "order"
+            JOIN "user"
+                ON "order".buyer_id = "user".id
+            JOIN product
+                ON "order".product_id = product.id
+            ORDER BY "order".id`,
             params: []
         };
 
