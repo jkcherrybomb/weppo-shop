@@ -104,7 +104,7 @@ app.post('/login_page', async (req, res) => {
        }
     }
     catch(err){
-        res.render('login_page', {errorMessage: err, user: req.user});
+        res.render('login_page', {errorMessage: err, user: req.user, email: email});
     }
 });
 
