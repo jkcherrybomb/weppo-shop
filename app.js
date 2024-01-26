@@ -63,7 +63,10 @@ app.post('/add_to_cart', async (req, res) => {
 app.get('/shopping_cart', async (req, res) => {
     if (!req.user) res.render('cart_sorry', {user: req.user});
     const cartEntries = (await cartRepo.getCart(req.user)).rows;
-    res.render('shopping_cart', {user: req.user, cartEntries});
+    const options = {user: req.user, cartEntries};
+    if (req.query.empty != undefined && req.query.empty != null)
+        options.errorMessage = "You cannot order an empty cart.";
+    res.render('shopping_cart', options);
 });
 
 app.post('/delete_item', async (req, res) => {
@@ -73,6 +76,11 @@ app.post('/delete_item', async (req, res) => {
 
 app.post('/submit_cart', async (req, res) => {
     try {
+        if ((await cartRepo.getCart(req.user)).rowCount == 0) {
+            res.redirect('shopping_cart?empty=1');
+            return;
+        }
+
         await cartRepo.orderCart(req.user);
         res.redirect('thankyou');
     } catch (err) {
