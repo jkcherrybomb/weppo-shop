@@ -128,13 +128,20 @@ app.post('/create_account', async (req, res) => {
         if (!email.includes('@')) {
             throw new Error('This is not an email. Please try again');
         }
+
+        if (name == "")
+            throw new Error('Name must not be empty.');
+
+        if (password == "")
+            throw new Error('Password must not be empty.');
+
         await userRepo.register(name, email, password);
         login_user(res, await userRepo.getId(email));
         res.redirect('/');
     }
     catch(err){
         console.log(err)
-        res.render('create_account', {errorMessage: err, user: null});
+        res.render('create_account', {errorMessage: err, user: null, name: name, email: email});
     }    
 });
 
